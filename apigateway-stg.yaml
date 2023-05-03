@@ -1,0 +1,29 @@
+server:
+  port: 8600
+
+
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: master-app
+          uri: "localhost:8500"
+          predicates:
+            - Path=/master/**
+          filters:
+            - AuthenticationFilter
+
+
+
+
+        - id: identity-service
+          uri: lb://IDENTITY-SERVICE
+          predicates:
+            - Path=/auth/**
+
+eureka:
+  client:
+    service-url:
+      defaultZone : http://localhost:8761/eureka/
+
+
